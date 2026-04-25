@@ -1,43 +1,135 @@
-# InfluencerCRM
+# InfluencerCRM 📊
 
-<p align="center">
-  <img src="https://img.shields.io/badge/CRM-Influencer-FF6B6B?style=for-the-badge&logo=heart&logoColor=white" alt="CRM">
-  <img src="https://img.shields.io/badge/Node.js-20+-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js">
-  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License">
-</p>
+A comprehensive CRM system for managing influencer marketing campaigns.
 
-> 💼 **Influencer Marketing CRM** - Track influencer deals, negotiations, performance metrics, automated payouts. Find, manage, and measure influencers.
+## Features
 
-## ✨ Features
+- **Influencer Management**: Track influencers, their social profiles, engagement metrics, and pricing
+- **Campaign Management**: Create and manage multi-influencer campaigns
+- **Messaging**: Track all communications with influencers
+- **Performance Analytics**: ROI tracking, engagement metrics, conversion tracking
+- **Pipeline Management**: Track influencer status from prospect to active partner
 
-### Influencer Discovery
-- 🔍 **Search** - Find influencers by niche, followers, engagement
-- 📊 **Profiles** - Detailed influencer analytics
-- 📈 **Audience** - Demographics, interests, locations
-- 💰 **Cost Estimation** - Suggested rates based on metrics
-
-### Relationship Management
-- 📝 **Deals Pipeline** - Track deal stages (lead → negotiation → contract → delivery → payment)
-- 💬 **Communication** - Email, notes, meeting logs
-- 📄 **Contracts** - E-signature integration
-- 💳 **Payouts** - Automated payment processing
-
-### Analytics
-- 📊 **ROI Tracking** - Campaign performance vs cost
-- 📈 **Influencer Metrics** - Historical performance
-- 🏆 **Top Performers** - Ranked influencer list
-- 📱 **Reports** - Custom dashboards and exports
-
-## 📦 Installation
+## Installation
 
 ```bash
-git clone https://github.com/moggan1337/InfluencerCRM.git
-cd InfluencerCRM
 npm install
-cp .env.example .env
+```
+
+## Configuration
+
+Create a `.env` file:
+```env
+PORT=3002
+MONGODB_URI=mongodb://localhost:27017/influencercrm
+```
+
+## Usage
+
+### Start the server
+```bash
+npm start
+```
+
+### Start with auto-reload
+```bash
 npm run dev
 ```
 
-## 📄 License
+## API Endpoints
 
-MIT License
+### Influencers
+- `GET /api/influencers` - List influencers (with filtering)
+- `GET /api/influencers/:id` - Get influencer details
+- `POST /api/influencers` - Create influencer
+- `PUT /api/influencers/:id` - Update influencer
+- `DELETE /api/influencers/:id` - Delete influencer
+- `POST /api/influencers/:id/notes` - Add note
+- `GET /api/influencers/stats/overview` - Get statistics
+
+### Campaigns
+- `GET /api/campaigns` - List campaigns
+- `GET /api/campaigns/:id` - Get campaign details
+- `POST /api/campaigns` - Create campaign
+- `PUT /api/campaigns/:id` - Update campaign
+- `POST /api/campaigns/:id/influencers` - Add influencer to campaign
+- `PUT /api/campaigns/:id/influencers/:infId` - Update influencer status
+- `POST /api/campaigns/:id/influencers/:infId/content` - Add content
+
+### Messages
+- `GET /api/messages` - List messages
+- `POST /api/messages` - Send message
+- `POST /api/messages/:id/mark-opened` - Mark as opened
+- `POST /api/messages/:id/mark-replied` - Mark as replied
+
+### Dashboard
+- `GET /api/stats` - Overview statistics
+
+## Data Models
+
+### Influencer
+- Contact info (name, email, phone)
+- Social profiles with followers
+- Niche and demographics
+- Engagement metrics
+- Pricing tiers
+- Campaign history
+
+### Campaign
+- Brand and objectives
+- Budget and timeline
+- Target demographics
+- Deliverables tracking
+- Influencer roster
+- Performance results
+
+### Message
+- Type (email, DM, comment, note)
+- Direction (inbound/outbound)
+- Status tracking
+- Thread support
+
+## Example Usage
+
+```bash
+# Create influencer
+curl -X POST http://localhost:3002/api/influencers \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Jane Doe",
+    "email": "jane@example.com",
+    "niche": "fashion",
+    "socialProfiles": {
+      "instagram": { "handle": "jane", "followers": 50000 }
+    }
+  }'
+
+# Create campaign
+curl -X POST http://localhost:3002/api/campaigns \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Summer Collection Launch",
+    "brand": "Fashion Brand",
+    "objectives": ["awareness", "engagement"],
+    "budget": { "total": 10000 }
+  }'
+```
+
+## Architecture
+
+```
+src/
+├── server.js           # Express server
+├── models/
+│   ├── Influencer.js   # Influencer model
+│   ├── Campaign.js     # Campaign model
+│   └── Message.js      # Message model
+└── routes/
+    ├── influencers.js  # Influencer routes
+    ├── campaigns.js    # Campaign routes
+    └── messages.js    # Message routes
+```
+
+## License
+
+MIT
